@@ -40,6 +40,13 @@ public class WordCountDriver extends Configured implements Tool {
     job.setOutputValueClass(IntWritable.class);
     
     
+    // declare the combiner class
+    job.setCombinerClass(SumCombiner.class);
+
+    if (job.getCombinerClass() == null) {
+      throw new Exception("Combiner not set");
+    }
+    
 
     boolean success = job.waitForCompletion(true);
     return success ? 0 : 1;
