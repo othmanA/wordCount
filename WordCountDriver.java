@@ -27,34 +27,29 @@ public class WordCountDriver extends Configured implements Tool {
 
     Job job = new Job(getConf());
     job.setJarByClass(WordCountDriver.class);
-    job.setJobName("Word Count Driver");
+    job.setJobName("wordCount - NoCombiner - Othman");
 
     
     FileInputFormat.setInputPaths(job, new Path(args[0]));
     FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    
     job.setMapperClass(WordMapper.class);
     job.setReducerClass(SumReducer.class);
+    
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(IntWritable.class);
     
     
-    job.setCombinerClass(SumCombiner.class);
-    
-    
-
-    if (job.getCombinerClass() == null) {
-      throw new Exception("Combiner not set");
-    }
 
     boolean success = job.waitForCompletion(true);
     return success ? 0 : 1;
   }
 
-  /*
-   * The main method calls the ToolRunner.run method, which
-   * calls an options parser that interprets Hadoop command-line
-   * options and puts them into a Configuration object.
-   */
+
+  
+  
+  
+  
   public static void main(String[] args) throws Exception {
     int exitCode = ToolRunner.run(new Configuration(), new WordCountDriver(), args);
     System.exit(exitCode);
